@@ -4,13 +4,13 @@ import express from 'express';
 
 import { initMongoConnection } from './db/initMongoConnection.js';
 
-import { Contact } from './models/contacts.js';
+import { newContact } from './models/contacts.js';
 
 const app = express();
 
 app.get('/contacts', async (req, res) => {
   try {
-    const contacts = await Contact.find();
+    const contacts = await newContact.find();
 
     res.send({
       status: 200,
@@ -27,7 +27,7 @@ app.get('/contacts/:contactId', async (req, res) => {
   try {
     const { contactId } = req.params;
 
-    const user = await Contact.findById(contactId);
+    const user = await newContact.findById(contactId);
 
     if (user === null) {
       return res

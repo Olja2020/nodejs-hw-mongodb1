@@ -31,6 +31,6 @@ const contactSchema = new mongoose.Schema(
   },
 );
 
-const Contact = mongoose.model('Contact', contactSchema); // collection: students
+const newContact = mongoose.model('newContact', contactSchema);
 
-export { Contact };
+export { newContact };
