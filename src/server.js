@@ -2,9 +2,9 @@ import 'dotenv/config';
 
 import express from 'express';
 
-import { initMongoConnection } from './db/initMongoConnection';
+import { initMongoConnection } from './db/initMongoConnection.js';
 
-import { Contact } from './models/student.js';
+import { Contact } from './models/contacts.js';
 
 const app = express();
 
