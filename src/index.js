@@ -23,4 +23,4 @@ const bootstrap = async () => {
   }
 };
 
-bootstrap(); 
+bootstrap();

@@ -4,7 +4,7 @@ import express from 'express';
 import { initMongoConnection } from './db/initMongoConnection.js';
 import { newContact } from './models/contacts.js';
 
-const bootstrap = async () => {
+export const  setupServer = async () => {
   try {
     await initMongoConnection(); // Встановлення з'єднання з MongoDB
 
@@ -67,5 +67,4 @@ const bootstrap = async () => {
     console.error('Error while setting up server:', error);
   }
 };
-
-bootstrap();
+ setupServer();
