@@ -72,8 +72,6 @@ export function setupServer() {
   } catch (error) {
     console.error(error);
   }
-
-
 }
 setupServer();
 // async function bootstrap() {
