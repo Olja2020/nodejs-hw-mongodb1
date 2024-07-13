@@ -2,7 +2,7 @@ import 'dotenv/config';
 
 import express from 'express';
 
-import { initMongoConnection } from './db.js';
+import { initMongoConnection } from './db/initMongoConnection';
 
 import { Contact } from './models/student.js';
 
