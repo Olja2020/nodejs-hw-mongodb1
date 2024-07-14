@@ -1,12 +1,11 @@
-// import 'dotenv/config';
 
 import express from 'express';
-import { initMongoConnection } from './db/initMongoConnection.js';
+
 import { newContact } from './models/contacts.js';
 
 export const  setupServer = async () => {
   try {
-    await initMongoConnection();
+
 
     const app = express();
 
