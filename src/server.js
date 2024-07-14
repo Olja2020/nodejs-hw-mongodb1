@@ -6,7 +6,7 @@ import { newContact } from './models/contacts.js';
 
 export const  setupServer = async () => {
   try {
-    await initMongoConnection(); // Встановлення з'єднання з MongoDB
+    await initMongoConnection(); 
 
     const app = express();
 

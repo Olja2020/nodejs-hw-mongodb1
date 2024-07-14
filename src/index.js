@@ -17,7 +17,7 @@ const bootstrap = async () => {
   try {
     await initMongoConnection();
     console.log('Mongo connection successfully established!');
-    await setupServer(); // Запуск сервера після успішного з'єднання
+    await setupServer(); 
   } catch (error) {
     console.error('Error during bootstrap:', error);
   }
