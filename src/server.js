@@ -6,7 +6,7 @@ import { newContact } from './models/contacts.js';
 
 export const  setupServer = async () => {
   try {
-    await initMongoConnection(); 
+    await initMongoConnection();
 
     const app = express();
 
@@ -67,4 +67,4 @@ export const  setupServer = async () => {
     console.error('Error while setting up server:', error);
   }
 };
- setupServer();
+
