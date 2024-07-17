@@ -1,21 +1,21 @@
 import createHttpError from "http-errors";
-import {ContactCollection} from "../models/contacts.js";
+import {ContactsCollection} from "../models/contacts.js";
 import {createContact, updateContact, deleteContact} from "../server.js";
 
 
 
 async function getContacts (req, res) {
-  const contacts = await ContactCollection.find();
+  const contacts = await ContactsCollection.find();
   res.send (contacts);
 
   };
 async function getContactById (req, res, next){
-  const {contactId} = req.perams;
-  const user = await ContactCollection.findById(contactId);
+  const {contactId} = req.params;
+  const user = await ContactsCollection.findById(contactId);
   if (user===null) {
     return next(createHttpError(404, 'Contact not found'));
   }
-  res.send({status: 200, data: user});
+  res.send({status: 200, message: `Successfully found contact with id **${contactId}**!`, data: user});
 }
 const createContactController = async (req, res) => {
   const contact = await createContact(req.body);
@@ -49,7 +49,7 @@ const deleteContactController = async (req, res, next) => {
   const student = await deleteContact(studentId);
 
   if (!student) {
-    next(createHttpError(404, 'Student not found'));
+    next(createHttpError(404, 'Contact not found'));
     return;
   }
 

@@ -5,7 +5,7 @@
 
     import contactsRouter from './routers/contacts.js'; // Імпортуємо роутер
     import { env } from './utils/env.js';
-    import {ContactCollection} from "./models/contacts.js";
+    import {ContactsCollection} from "./models/contacts.js";
     import { errorHandler } from './middlewares/errorHandler.js';
     import { notFoundHandler } from './middlewares/notFoundHandler.js';
 
@@ -39,11 +39,11 @@
 
 
 export const createContact = async (payload) => {
-  const contact = await ContactCollection.create(payload);
+  const contact = await ContactsCollection.create(payload);
   return contact;
 };
 export const deleteContact = async (contactId) => {
-  const contact = await ContactCollection.findOneAndDelete({
+  const contact = await ContactsCollection.findOneAndDelete({
     _id: contactId,
   });
 
@@ -51,7 +51,7 @@ export const deleteContact = async (contactId) => {
 };
 
 export const updateContact = async (contactId, payload, options = {}) => {
-  const rawResult = await ContactCollection.findOneAndUpdate(
+  const rawResult = await ContactsCollection.findOneAndUpdate(
     { _id: contactId },
     payload,
     {
