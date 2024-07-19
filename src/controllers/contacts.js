@@ -6,7 +6,7 @@ import {createContact, updateContact, deleteContact} from "../server.js";
 
 async function getContacts (req, res) {
   const contacts = await ContactsCollection.find();
-  res.send (contacts);
+  res.send ({status: 200, contacts});
 
   };
 async function getContactById (req, res, next){
@@ -28,8 +28,9 @@ const createContactController = async (req, res) => {
 };
 
  const patchContactController = async (req, res, next) => {
-  const { contactsId } = req.params;
-  const result = await updateContact(contactsId, req.body);
+  const { contactId } = req.params;
+
+  const result = await updateContact(contactId, req.body);
 
   if (!result) {
     next(createHttpError(404, 'Contact not found'));
@@ -44,9 +45,9 @@ const createContactController = async (req, res) => {
 };
 
 const deleteContactController = async (req, res, next) => {
-  const { studentId } = req.params;
+  const { contactId } = req.params;
 
-  const student = await deleteContact(studentId);
+  const student = await deleteContact(contactId);
 
   if (!student) {
     next(createHttpError(404, 'Contact not found'));
