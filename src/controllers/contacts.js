@@ -38,15 +38,15 @@ async function createContact(req, res, next) {
 
 async function patchContact (req, res, next)  {
   const { contactId } = req.params;
-  //const contact = {
+  // const contact = {
   //  name: req.body.name,
   //   phoneNumber: req.body.phoneNumber,
   //   email: req.body.email,
   //   isFavourite: req.body.isFavourite,
   //   contactType: req.body.contactType
   // };
-
-  const result = await ContactService.updateContact(contactId, req.body);
+  const fild = req.body;
+  const result = await ContactService.updateContact(contactId, fild);
 
   if (!result) {
     return next(createHttpError(404, 'Contact not found'));
@@ -54,7 +54,7 @@ async function patchContact (req, res, next)  {
   }
 
   res.status(200).send({status:200, message: `Successfully patched a contact!`,
-    data: result.contact});
+    data: fild});
 
   }
 
