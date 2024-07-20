@@ -38,38 +38,20 @@ async function createContact(req, res, next) {
 
 async function patchContact (req, res, next)  {
   const { contactId } = req.params;
-  const payload = req.body;
-  // const contact = {
-  //  name: req.body.name,
-  //   phoneNumber: req.body.phoneNumber,
-  //   email: req.body.email,
-  //   isFavourite: req.body.isFavourite,
-  //   contactType: req.body.contactType
-  // };
-  // const fild = req.body;
-  // const result = await ContactService.updateContact(contactId, fild);
+  const name = req.body.name;
 
-  // if (!result) {
-  //   return next(createHttpError(404, 'Contact not found'));
 
-  // }
+  const result = await ContactService.updateContact(contactId, name);
 
-  // res.status(200).send({status:200, message: `Successfully patched a contact!`,
-  //   data: fild});
-  try {
-    const result = await ContactService.updateContact(contactId, payload);
+  if (!result) {
+    return next(createHttpError(404, 'Contact not found'));
 
-    if (!result) {
-      return next(createHttpError(404, 'Contact not found'));
-    }
-
-    res.status(200).send({
-      data: { contact: result },
-      message: 'Successfully patched a contact!'
-    });
-  } catch (error) {
-    next(error);
   }
+  console.log({ result });
+
+  res.status(200).send({status:200, message: `Successfully patched a contact!`,
+    data: result});
+
   }
 
 
