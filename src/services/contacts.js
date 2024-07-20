@@ -18,7 +18,7 @@ function deleteContact(contactId) {
 
 async function  changeContact(contactId, name) {
 
-  return  ContactsCollection.findByIdAndUpdate(contactId,{name:name},{ new: true});
+  return  ContactsCollection.findByIdAndUpdate(contactId,{name},{ new: true});
 
 }
 

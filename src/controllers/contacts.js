@@ -37,17 +37,18 @@ async function createContact(req, res, next) {
 };
 
 async function patchContact (req, res, next)  {
+  //res.send('name');
   const { contactId } = req.params;
   const name = req.body.name;
 
 
-  const result = await ContactService.updateContact(contactId, name);
-
+  const result = await ContactService.patchContact(contactId, name);
+  console.log({ result });
   if (!result) {
     return next(createHttpError(404, 'Contact not found'));
 
   }
-  console.log({ result });
+
 
   res.status(200).send({status:200, message: `Successfully patched a contact!`,
     data: result});
