@@ -4,7 +4,7 @@ import {updateContact} from '../services/contacts.js';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
-//import {createContactSchema} from "../validation/contacts.js";
+
 
 
 async function getContacts (req, res) {
@@ -56,19 +56,7 @@ async function createContact(req, res, next) {
 async function patchContact (req, res, next)  {
 
   const { contactId } = req.params;
-  // const name = req.body.name;
 
-
-  // const result = await ContactService.patchContact(contactId, name);
-  // console.log({ result });
-  // if (!result) {
-  //   return next(createHttpError(404, 'Contact not found'));
-
-  // }
-
-
-  // res.status(200).send({status:200, message: `Successfully patched a contact!`,
-  //   data: result});
   const result = await updateContact(contactId, req.body);
 
   if (!result) {

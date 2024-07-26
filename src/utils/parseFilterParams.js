@@ -3,8 +3,8 @@ const parseIsFavourite = (isFavourite) => {
     const isBoolean = typeof isFavourite === 'boolean';
     if (!isBoolean) return;
 
-    if(isBoolean){
-    return isFavourite;}
+
+    return isFavourite;
   };
 
   const parseContactType = (contactType) => {
