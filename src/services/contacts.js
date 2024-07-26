@@ -20,23 +20,7 @@ async function getContacts({ page = 1,
     contactQuery.where('isFavourite').equals(filter.isFavourite);
   }
 
-  // const [contacts, count] = await Promise.all([
-  //   contactQuery
-  //     .sort({ [sortBy]: sortOrder })
-  //     .skip(skip)
-  //     .limit(limit)
-  //     .exec(),
-  //     ContactsCollection.countDocuments(contactQuery),
-  // ]);
-
-    // return {
-  //   contacts,
-  //   page,
-  //   perPage,
-  //   totalItems: count,
-  //   hasNextPage: totalPages - page > 0,
-  //   hasPreviousPage: page > 1,
-  // };
+  
   const [contactsCount, contacts] = await Promise.all([
     ContactsCollection.find().merge(contactQuery).countDocuments(),
     contactQuery
