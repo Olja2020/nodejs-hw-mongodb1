@@ -1,11 +1,14 @@
 
+
 const parseIsFavourite = (isFavourite) => {
-    const isBoolean = typeof isFavourite === 'boolean';
-    if (!isBoolean) return;
 
+  const isBoolean = typeof isFavourite === 'boolean';
+  if (!isBoolean) {
+    return undefined;
+  }
 
-    return isFavourite;
-  };
+  return isFavourite;
+};
 
   const parseContactType = (contactType) => {
     const isString = typeof contactType === 'string';
