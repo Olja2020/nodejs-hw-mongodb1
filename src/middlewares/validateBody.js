@@ -18,7 +18,7 @@ export function validateBody(schema) {
   return async (req, res, next) => {
     try {
       await schema.validateAsync(req.body, { abortEarly: false });
-
+     
       next();
     } catch (error) {
       console.log({ message: error.message });
