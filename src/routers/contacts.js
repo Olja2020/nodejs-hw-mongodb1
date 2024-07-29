@@ -1,15 +1,11 @@
 
 import express from "express";
 import { isValidID } from '../middlewares/isValidId.js';
-
 import { getContacts,getContactById,createContact,deleteContact,patchContact
 } from '../controllers/contacts.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import{createContactSchema, updateContactSchema} from "../validation/contacts.js";
 import {validateBody} from "../middlewares/validateBody.js";
-
-
-
 const router = express.Router();
 const jsonParser=express.json();
 

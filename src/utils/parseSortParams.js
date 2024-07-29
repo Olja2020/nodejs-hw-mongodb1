@@ -11,6 +11,7 @@ function parseSortBy(sortBy) {
       ];
 
     if (keys.includes(sortBy)) {
+     // console.log(sortBy);
       return sortBy;
     }
 

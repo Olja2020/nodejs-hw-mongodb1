@@ -57,9 +57,9 @@ async function  changeContact(contactId, name) {
   return  ContactsCollection.findByIdAndUpdate(contactId,{name},{ new: true});
 
 }
-export const updateContact = async (studentId, payload, options = {}) => {
+export const updateContact = async (contactId, payload, options = {}) => {
   const rawResult = await ContactsCollection.findOneAndUpdate(
-    { _id: studentId },
+    { _id: contactId },
     payload,
     {
       new: true,
@@ -71,7 +71,7 @@ export const updateContact = async (studentId, payload, options = {}) => {
   if (!rawResult || !rawResult.value) return null;
 
   return {
-    student: rawResult.value,
+    contact: rawResult.value,
     isNew: Boolean(rawResult?.lastErrorObject?.upserted),
   };
 };

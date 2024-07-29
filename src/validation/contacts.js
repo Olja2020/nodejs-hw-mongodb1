@@ -9,7 +9,7 @@ export const createContactSchema = Joi.object({
   email: Joi.string().email().required().messages({
     'string.email': 'Email is not valid',}),
   isFavourite: Joi.boolean().required(),
-  contactType: Joi.string().valid('male', 'female', 'other').required(),
+  contactType: Joi.string().valid('work', 'home', 'personal').required(),
 
 });
 
@@ -22,7 +22,7 @@ export const updateContactSchema = Joi.object({
       email: Joi.string().email().messages({
         'string.email': 'Email is not valid',}),
       isFavourite: Joi.boolean(),
-      contactType: Joi.string().valid('male', 'female', 'other'),
+      contactType: Joi.string().valid('work', 'home', 'personal'),
   });
 
 
