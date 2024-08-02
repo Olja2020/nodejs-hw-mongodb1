@@ -1,28 +1,29 @@
+import express from 'express';
+import cookieParser from 'cookie-parser';
+import contactRouter from './routers/contacts.js';
+import authRoutes from './routes/auth.js';
+import { env } from './utils/env.js';
 
-    import express from 'express';
+import { errorHandler } from './middlewares/errorHandler.js';
+import { notFoundHandler } from './middlewares/notFoundHandler.js';
 
-    import contactRouter from './routers/contacts.js'; 
-    import { env } from './utils/env.js';
+const PORT = Number(env('PORT', '3000'));
 
-    import { errorHandler } from './middlewares/errorHandler.js';
-    import { notFoundHandler } from './middlewares/notFoundHandler.js';
+export const setupServer = () => {
+  const app = express();
 
-    const PORT = Number(env('PORT', '3000'));
+  app.use(cookieParser());
 
+  app.use(authRoutes);
+  app.use(contactRouter);
 
-    export const setupServer = () => {
-      const app = express();
+  app.use(contactRouter);
 
+  app.use('*', notFoundHandler);
 
-      app.use(contactRouter);
+  app.use(errorHandler);
 
-      app.use('*', notFoundHandler);
-
-      app.use(errorHandler);
-
-      app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
-      });
-    };
-
-
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+};
