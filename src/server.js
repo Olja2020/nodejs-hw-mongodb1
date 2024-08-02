@@ -1,7 +1,7 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import contactRouter from './routers/contacts.js';
-import authRoutes from './routes/auth.js';
+import authRoutes from './routers/auth.js';
 import { env } from './utils/env.js';
 
 import { errorHandler } from './middlewares/errorHandler.js';

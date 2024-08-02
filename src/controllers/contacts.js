@@ -10,18 +10,26 @@ async function getContacts(req, res) {
   const { sortBy, sortOrder } = parseSortParams(req.query);
   const filter = parseFilterParams(req.query);
 
+  //filter.userId = req.user._id;
+
   const contacts = await ContactService.getContacts({
     page,
     perPage,
     sortBy,
     sortOrder,
     filter,
+    userId: req.user._id,
   });
   res.send({ status: 200, data: contacts });
 }
 
 async function getContactById(req, res, next) {
   const { contactId } = req.params;
+  const contact = await ContactService.getContactById(contactId, req.user._id);
+
+  if (contact === null) {
+    return next(createHttpError(404, 'Student not found'));
+  }
 
   const user = await ContactService.getContactById(contactId);
   if (user === null) {

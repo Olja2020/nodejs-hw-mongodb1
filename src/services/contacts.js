@@ -2,11 +2,14 @@ import { ContactsCollection } from '../models/contacts.js';
 import { SORT_ORDER } from '../constants/index.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 
-async function getContacts({ page = 1,
+async function getContacts({
+  page = 1,
   perPage = 10,
   sortOrder = SORT_ORDER.ASC,
   sortBy = '_id',
-  filter = {},}) {
+  filter = {},
+  userId,
+}) {
   const limit = perPage;
   const skip = page > 0 ? (page - 1) * perPage : 0;
 
@@ -17,11 +20,9 @@ async function getContacts({ page = 1,
   }
 
   if (typeof filter.isFavourite !== 'undefined') {
-
-   contactQuery.where('isFavourite').equals(filter.isFavourite);
-
+    contactQuery.where('isFavourite').equals(filter.isFavourite);
   }
-
+  contactQuery.where('userId').equals(userId);
 
   const [contactsCount, contacts] = await Promise.all([
     ContactsCollection.find().merge(contactQuery).countDocuments(),
@@ -38,11 +39,15 @@ async function getContacts({ page = 1,
     data: contacts,
     ...paginationData,
   };
-};
+}
 
- function getContactById(contactId) {
-  return ContactsCollection.findById(contactId);
- }
+function getContactById(contactId, userId) {
+  return ContactsCollection.findOne({ _id: contactId, userId });
+}
+
+// function getContactById(contactId) {
+//   return ContactsCollection.findById(contactId);
+// }
 
 function createContact(contact) {
   return ContactsCollection.create(contact);
@@ -52,10 +57,12 @@ function deleteContact(contactId) {
   return ContactsCollection.findByIdAndDelete(contactId);
 }
 
-async function  changeContact(contactId, name) {
-
-  return  ContactsCollection.findByIdAndUpdate(contactId,{name},{ new: true});
-
+async function changeContact(contactId, name) {
+  return ContactsCollection.findByIdAndUpdate(
+    contactId,
+    { name },
+    { new: true },
+  );
 }
 export const updateContact = async (contactId, payload, options = {}) => {
   const rawResult = await ContactsCollection.findOneAndUpdate(
@@ -76,10 +83,9 @@ export const updateContact = async (contactId, payload, options = {}) => {
   };
 };
 export {
-  getContacts, getContactById, createContact, deleteContact, changeContact,
+  getContacts,
+  getContactById,
+  createContact,
+  deleteContact,
+  changeContact,
 };
-
-
-
-
-

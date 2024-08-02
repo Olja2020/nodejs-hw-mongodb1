@@ -3,7 +3,7 @@ import createHttpError from 'http-errors';
 import { User } from '../models/user.js';
 import { Session } from '../models/session.js';
 
-export async function auth(req, res, next) {
+export async function authenticate(req, res, next) {
   if (typeof req.headers.authorization !== 'string') {
     return next(createHttpError(401, 'Please provide Authorization header'));
   }
