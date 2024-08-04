@@ -20,7 +20,11 @@ async function getContacts(req, res) {
     filter,
     userId: req.user._id,
   });
-  res.send({ status: 200, data: contacts });
+  res.send({
+    status: 200,
+    message: 'Successfully found contacts!',
+    data: contacts,
+  });
 }
 
 async function getContactById(req, res, next) {

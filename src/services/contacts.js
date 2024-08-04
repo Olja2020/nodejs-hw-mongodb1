@@ -54,12 +54,12 @@ function createContact(contact) {
 }
 
 function deleteContact(contactId) {
-  return ContactsCollection.findByIdAndDelete(contactId);
+  return ContactsCollection.findOneAndDelete({ _id: contactId });
 }
 
 async function changeContact(contactId, name) {
-  return ContactsCollection.findByIdAndUpdate(
-    contactId,
+  return ContactsCollection.findOneAndUpdate(
+    { _id: contactId },
     { name },
     { new: true },
   );

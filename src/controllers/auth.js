@@ -9,7 +9,12 @@ async function register(req, res) {
 
   const registeredUser = await AuthService.registerUser(user);
 
-  res.send({ status: 201, message: 'Successfully registered a user', data: registeredUser });
+  // res.send({ status: 201, message: 'Successfully registered a user', data: registeredUser });
+  res.status(201).json({
+    status: 201,
+    message: 'Successfully registered a user!',
+    data: registeredUser,
+  });
 }
 
 async function login(req, res) {
@@ -62,13 +67,13 @@ async function refresh(req, res) {
 }
 
 async function logout(req, res) {
-    if (typeof req.cookies.sessionId === 'string') {
-      await AuthService.logoutUser(req.cookies.sessionId);
-    }
-
-    res.clearCookie('refreshToken');
-    res.clearCookie('sessionId');
-
-    res.status(204).end();
+  if (typeof req.cookies.sessionId === 'string') {
+    await AuthService.logoutUser(req.cookies.sessionId);
   }
+
+  res.clearCookie('refreshToken');
+  res.clearCookie('sessionId');
+
+  res.status(204).end();
+}
 export { register, login, logout, refresh };
