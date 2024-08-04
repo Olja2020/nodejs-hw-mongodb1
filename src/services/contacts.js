@@ -57,16 +57,21 @@ function deleteContact(contactId) {
   return ContactsCollection.findOneAndDelete({ _id: contactId });
 }
 
-async function changeContact(contactId, name) {
+async function changeContact(contactId, name, userId) {
   return ContactsCollection.findOneAndUpdate(
-    { _id: contactId },
+    { _id: contactId, userId },
     { name },
     { new: true },
   );
 }
-export const updateContact = async (contactId, payload, options = {}) => {
+export const updateContact = async (
+  contactId,
+  payload,
+  userId,
+  options = {},
+) => {
   const rawResult = await ContactsCollection.findOneAndUpdate(
-    { _id: contactId },
+    { _id: contactId, userId },
     payload,
     {
       new: true,
