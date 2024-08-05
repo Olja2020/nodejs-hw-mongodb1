@@ -48,10 +48,6 @@ function getContactById(contactId, userId) {
   });
 }
 
-// function getContactById(contactId) {
-//   return ContactsCollection.findById(contactId);
-// }
-
 function createContact(contact) {
   return ContactsCollection.create(contact);
 }
