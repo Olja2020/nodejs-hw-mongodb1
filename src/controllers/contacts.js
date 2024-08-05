@@ -32,17 +32,13 @@ async function getContactById(req, res, next) {
   const contact = await ContactService.getContactById(contactId, req.user._id);
 
   if (contact === null) {
-    return next(createHttpError(404, 'Student not found'));
-  }
-
-  const user = await ContactService.getContactById(contactId);
-  if (user === null) {
     return next(createHttpError(404, 'Contact not found'));
   }
+
   res.send({
     status: 200,
     message: `Successfully found contact with id **${contactId}**!`,
-    data: user,
+    data: contact,
   });
 }
 
@@ -67,7 +63,7 @@ async function createContact(req, res) {
 async function patchContact(req, res, next) {
   const { contactId } = req.params;
 
-  const result = await updateContact(contactId, req.body);
+  const result = await updateContact(contactId, req.body, req.user._id);
 
   if (!result) {
     next(createHttpError(404, 'Contact not found'));

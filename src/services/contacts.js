@@ -42,7 +42,10 @@ async function getContacts({
 }
 
 function getContactById(contactId, userId) {
-  return ContactsCollection.findOne({ _id: contactId, userId });
+  return ContactsCollection.findOne({
+    _id: contactId,
+    userId,
+  });
 }
 
 // function getContactById(contactId) {
