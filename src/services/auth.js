@@ -1,12 +1,19 @@
 import crypto from 'node:crypto';
-
+import handlebars from 'handlebars';
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
-
+import * as fs from 'node:fs/promises';
+import path from 'node:path';
 import { User } from '../models/user.js';
 import { Session } from '../models/session.js';
 
-import { ACCESS_TOKEN_TTL, REFRESH_TOKEN_TTL } from '../constants/index.js';
+import {
+  ACCESS_TOKEN_TTL,
+  REFRESH_TOKEN_TTL,
+  SMTP,
+  TEMPLATE_DIR,
+} from '../constants/index.js';
 
 async function registerUser(user) {
   const maybeUser = await User.findOne({ email: user.email });
@@ -70,7 +77,37 @@ async function refreshUserSession(sessionId, refreshToken) {
 }
 
 function logoutUser(sessionId) {
-    return Session.deleteOne({ _id: sessionId });
+  return Session.deleteOne({ _id: sessionId });
+}
+
+async function requestResetEmail(email) {
+  const user = await User.findOne({ email });
+
+  if (user === null) {
+    throw createHttpError(404, 'User not found');
   }
-  
-export { registerUser, loginUser, logoutUser, refreshUserSession };
+
+  const resetToken = jwt.sign(
+    {
+      sub: user._id,
+      email: user.email,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: '5m',
+    },
+  );
+}
+await sendEmail({
+  from: env(SMTP.SMTP_FROM),
+  to: email,
+  subject: 'Reset your password',
+  html: `<p>Click <a href="${resetToken}">here</a> to reset your password!</p>`,
+});
+export {
+  registerUser,
+  loginUser,
+  logoutUser,
+  refreshUserSession,
+  requestResetEmail,
+};

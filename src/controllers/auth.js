@@ -76,4 +76,13 @@ async function logout(req, res) {
 
   res.status(204).end();
 }
-export { register, login, logout, refresh };
+async function requestResetEmail(req, res) {
+  await AuthService.requestResetEmail(req.body.email);
+
+  res.send({
+    status: 200,
+    message: 'Reset password email has been successfully sent.',
+    data: {},
+  });
+}
+export { register, login, logout, refresh, requestResetEmail };
