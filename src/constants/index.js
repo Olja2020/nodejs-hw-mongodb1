@@ -5,9 +5,11 @@ export const SORT_ORDER = {
 };
 export const ACCESS_TOKEN_TTL = 15 * 60 * 1000; // 15 minutes in milliseconds
 export const REFRESH_TOKEN_TTL = 24 * 30 * 60 * 60 * 1000; // 30 days in milliseconds
+
 export const ROLES = {
   USER: 'user',
 };
+
 export const SMTP = {
   HOST: process.env.SMTP_HOST,
   PORT: Number(process.env.SMTP_PORT),

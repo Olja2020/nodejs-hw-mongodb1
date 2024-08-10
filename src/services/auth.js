@@ -5,16 +5,18 @@ import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
 import * as fs from 'node:fs/promises';
 import path from 'node:path';
+import { sendEmail } from '../utils/sendEmail.js';
 import { User } from '../models/user.js';
 import { Session } from '../models/session.js';
-
+import { env } from '../utils/env.js';
 import {
   ACCESS_TOKEN_TTL,
   REFRESH_TOKEN_TTL,
   SMTP,
   TEMPLATE_DIR,
 } from '../constants/index.js';
-
+import httpErrors from 'http-errors'; // Імпорт за замовчуванням
+const { NotFound } = httpErrors;
 async function registerUser(user) {
   const maybeUser = await User.findOne({ email: user.email });
 
@@ -84,7 +86,7 @@ async function requestResetEmail(email) {
   const user = await User.findOne({ email });
 
   if (user === null) {
-    throw createHttpError(404, 'User not found');
+    throw NotFound('User not found');
   }
 
   const resetToken = jwt.sign(
@@ -97,17 +99,52 @@ async function requestResetEmail(email) {
       expiresIn: '5m',
     },
   );
+  const templateFile = path.join(TEMPLATE_DIR, 'reset-password-email.html');
+
+  const templateSource = await fs.readFile(templateFile, { encoding: 'utf-8' });
+
+  const template = handlebars.compile(templateSource);
+
+  const html = template({
+    name: user.name,
+    link: `https://google.com/reset-password?token=${resetToken}`,
+  });
+  await sendEmail({
+    from: env(SMTP.SMTP_FROM),
+    to: email,
+    subject: 'Reset your password',
+    html,
+  });
 }
-await sendEmail({
-  from: env(SMTP.SMTP_FROM),
-  to: email,
-  subject: 'Reset your password',
-  html: `<p>Click <a href="${resetToken}">here</a> to reset your password!</p>`,
-});
+async function resetPassword(password, token) {
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const user = await User.findOne({ _id: decoded.sub, email: decoded.email });
+
+    if (user === null) {
+      throw NotFound('User not found');
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await User.findByIdAndUpdate(user._id, { password: hashedPassword });
+  } catch (error) {
+    if (
+      error.name === 'TokenExpiredError' ||
+      error.name === 'JsonWebTokenError'
+    ) {
+      throw createHttpError(401, 'Token is expired or invalid.');
+    }
+
+    throw error;
+  }
+}
 export {
   registerUser,
   loginUser,
   logoutUser,
   refreshUserSession,
   requestResetEmail,
+  resetPassword,
 };
