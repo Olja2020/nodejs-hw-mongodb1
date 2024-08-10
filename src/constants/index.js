@@ -11,11 +11,11 @@ export const ROLES = {
 };
 
 export const SMTP = {
-  HOST: process.env.SMTP_HOST,
-  PORT: Number(process.env.SMTP_PORT),
-  USER: process.env.SMTP_USER,
-  PASSWORD: process.env.SMTP_PASSWORD,
-  FROM_EMAIL: process.env.SMTP_FROM_EMAIL,
+  SMTP_HOST: 'SMTP_HOST',
+  SMTP_PORT: 'SMTP_PORT',
+  SMTP_USER: 'SMTP_USER',
+  SMTP_PASSWORD: 'SMTP_PASSWORD',
+  SMTP_FROM: 'SMTP_FROM',
 };
 
 // export const CLOUDINARY = {
