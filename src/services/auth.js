@@ -15,8 +15,10 @@ import {
   SMTP,
   TEMPLATE_DIR,
 } from '../constants/index.js';
+
 import httpErrors from 'http-errors'; // Імпорт за замовчуванням
-const { NotFound } = httpErrors;
+const { NotFound, InternalServerError } = httpErrors;
+
 async function registerUser(user) {
   const maybeUser = await User.findOne({ email: user.email });
 
@@ -88,7 +90,11 @@ async function requestResetEmail(email) {
   if (user === null) {
     throw NotFound('User not found');
   }
-
+  if (email === null) {
+    throw InternalServerError(
+      'Failed to send the email, please try again later.',
+    );
+  }
   const resetToken = jwt.sign(
     {
       sub: user._id,
