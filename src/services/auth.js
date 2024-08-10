@@ -116,7 +116,7 @@ async function requestResetEmail(email) {
     link: `${env('APP_DOMAIN')}/reset-password?token=${resetToken}`,
   });
   await sendEmail({
-    from: env(SMTP.SMTP_FROM),
+    from: SMTP.FROM_EMAIL,
     to: email,
     subject: 'Reset your password',
     html,
