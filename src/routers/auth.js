@@ -6,13 +6,13 @@ import {
   logout,
   refresh,
   requestResetEmail,
-  //resetPassword,
+  resetPassword,
 } from '../controllers/auth.js';
 import {
   registerSchema,
   loginSchema,
   requestResetEmailSchema,
-  //resetPasswordSchema,
+  resetPasswordSchema,
 } from '../validation/auth.js';
 import { validateBody } from '../middlewares/validateBody.js';
 
@@ -43,11 +43,11 @@ router.post(
   validateBody(requestResetEmailSchema),
   ctrlWrapper(requestResetEmail),
 );
-// router.post(
-//   '/auth/reset-pwd',
-//   jsonParser,
-//   validateBody(resetPasswordSchema),
-//   ctrlWrapper(resetPassword),
-// );
+router.post(
+  '/auth/reset-pwd',
+  jsonParser,
+  validateBody(resetPasswordSchema),
+  ctrlWrapper(resetPassword),
+);
 
 export default router;
