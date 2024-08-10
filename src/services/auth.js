@@ -8,7 +8,7 @@ import path from 'node:path';
 import { sendEmail } from '../utils/sendEmail.js';
 import { User } from '../models/user.js';
 import { Session } from '../models/session.js';
-import { env } from '../utils/env.js';
+//import { env } from '../utils/env.js';
 import {
   ACCESS_TOKEN_TTL,
   REFRESH_TOKEN_TTL,
@@ -105,6 +105,7 @@ async function requestResetEmail(email) {
       expiresIn: '5m',
     },
   );
+  console.log(resetToken);
   const templateFile = path.join(TEMPLATE_DIR, 'reset-password-email.html');
 
   const templateSource = await fs.readFile(templateFile, { encoding: 'utf-8' });
@@ -113,7 +114,8 @@ async function requestResetEmail(email) {
 
   const html = template({
     name: user.name,
-    link: `${env('APP_DOMAIN')}/reset-password?token=${resetToken}`,
+    // link: `${env('APP_DOMAIN')}/reset-password?token=${resetToken}`,
+    link: `https://google.com/reset-password?token=${resetToken}`,
   });
   await sendEmail({
     from: SMTP.FROM_EMAIL,
@@ -125,7 +127,7 @@ async function requestResetEmail(email) {
 async function resetPassword(password, token) {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
+    console.log(decoded);
     const user = await User.findOne({ _id: decoded.sub, email: decoded.email });
 
     if (user === null) {
