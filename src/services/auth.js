@@ -127,7 +127,7 @@ async function requestResetEmail(email) {
 async function resetPassword(password, token) {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decoded);
+    //console.log(decoded);
     const user = await User.findOne({ _id: decoded.sub, email: decoded.email });
 
     if (user === null) {
