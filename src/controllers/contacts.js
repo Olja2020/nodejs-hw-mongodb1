@@ -95,7 +95,7 @@ async function patchContact(req, res, next) {
     //   req.user._id,
     //   photoUrl,
     // );
-    console.log(result);
+    //console.log(result);
     const result = await updateContact(
       contactId,
       {
