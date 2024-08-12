@@ -89,11 +89,18 @@ async function patchContact(req, res, next) {
         photoUrl = await saveFileToUploadDir(photo);
       }
     }
-    //const result = await updateContact(contactId, req.body, req.user._id);
+    // const result = await updateContact(
+    //   contactId,
+    //   req.body,
+    //   req.user._id,
+    //   photoUrl,
+    // );
+    console.log(result);
     const result = await updateContact(
       contactId,
       {
         ...req.body,
+        //userId: req.user._id,
         photo: photoUrl,
       },
       req.user._id,

@@ -102,7 +102,7 @@ async function requestResetEmail(email) {
     },
     process.env.JWT_SECRET,
     {
-      expiresIn: '5m',
+      expiresIn: '25m',
     },
   );
   console.log(resetToken);

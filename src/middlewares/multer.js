@@ -6,6 +6,7 @@ const storage = multer.diskStorage({
     cb(null, TEMP_UPLOAD_DIR);
   },
   filename: function (req, file, cb) {
+    console.log(file);
     const uniqueSuffix = Date.now();
     cb(null, `${uniqueSuffix}_${file.originalname}`);
   },
